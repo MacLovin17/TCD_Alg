@@ -94,19 +94,21 @@ void cadastro(){
         e.i_vend_basic = 0;
         e.i_vend_normal = 0;
         e.i_vend_espec = 0;
-
+        getchar();
         printf("Esse evento e open bar? (1-Sim | 0-Nao): \n");
         scanf("%d", &e.op_bar);
         if(e.op_bar == 1){
             for(size_t i=0; i<3; i++){
-                printf("Nome da bebida %d: ", i + 1);
                 getchar();
+                printf("Nome da bebida %d: ", i + 1);
+                
                 if (fgets(e.bebidas[i].nome, sizeof(e.bebidas[i].nome), stdin) != NULL) {
                     size_t len = strlen(e.bebidas[i].nome);
                     if (len > 0 && e.bebidas[i].nome[len - 1] == '\n') {
                         e.bebidas[i].nome[len - 1] = '\0';
                     }
                 }
+                
                 printf("Teor alcoolico da bebida %d: ", i + 1);
                 scanf("%f", &e.bebidas[i].t_alcool);
                 printf("Valor unitario da bebida %d: ", i + 1);
@@ -120,7 +122,32 @@ void cadastro(){
         printf("Evento cadastrado com sucesso!\n");
 }
 
+void pesquisa(){
+    Evento e;
+    int aux_CI;
 
+    printf("Informe seu identificador unico: (0) para sair.\n");
+    scanf("%d", &aux_CI);
+    if (aux_CI == 0){
+        return;
+    }
+    
+    for (size_t i = 0; i < tot_event; i++)
+    {
+        if (eventos[i].C_I == aux_CI){
+            printf("Nome do evento %s: \n", eventos[i].nome);
+            printf("Local: %s\n", eventos[i].local);
+            printf("Data: %s\n", eventos[i].data);
+            printf("Capacidade Máxima: %d\n", eventos[i].cap_max);
+            printf("Custo de Organização: %.2f\n", eventos[i].c_org);
+            printf("Valor da Entrada Básica: %.2f\n", eventos[i].v_basico);
+            printf("Valor da Entrada Normal: %.2f\n", eventos[i].v_normal);
+            printf("Valor da Entrada Especial: %.2f\n", eventos[i].v_especial);
+        }
+    }
+    printf("Evento nao cadastrado. \n");
+    return pesquisa();
+}
 
 
 
@@ -131,7 +158,7 @@ void cadastro(){
 int main() {
 
     setlocale(LC_ALL,"portuguese");
-    int opc, i=0;
+    int opc;
     char cond='S';
 
     do
@@ -163,14 +190,24 @@ int main() {
         limpar_terminal();
         printf("\t(1) Cadastrar evento\n");
         cadastro();
-
+        printf("Deseja voltar ao menu? (S) para sim, (N) para nao\n");
+        getchar();
+        scanf("%c", &cond);
+        break;
+    case 2:
+        limpar_terminal();
+        printf("\t(2) Pesquisar evento\n");
+        pesquisa();
+        printf("Deseja voltar ao menu? (S) para sim, (N) para nao\n");
+        getchar();
+        scanf("%c", &cond);
         break;
     default:
     printf("Opcao invalida.\n");
         break;
     }
 
-    } while (cond =='N');
+    } while (cond =='S' || cond == 's');
 
 
 
