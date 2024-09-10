@@ -123,7 +123,6 @@ void cadastro(){
 }
 
 void pesquisa(){
-    Evento e;
     int aux_CI;
 
     printf("Informe seu identificador unico: (0) para sair.\n");
