@@ -39,7 +39,7 @@ typedef struct {
     char data[MAX];
     int cap_max;
     float c_org;
-    float v_normal, v_basico, v_especial;
+    float v_normal, v_basico, v_especial, v_total;
     int i_vend_basic, i_vend_normal, i_vend_espec;
     Bebida bebidas[3];
     int op_bar;
@@ -98,7 +98,7 @@ void cadastro(){
         printf("Esse evento e open bar? (1-Sim | 0-Nao): \n");
         scanf("%d", &e.op_bar);
         if(e.op_bar == 1){
-            for(size_t i=0; i<3; i++){
+            for(int i=0; i<3; i++){
                 getchar();
                 printf("Nome da bebida %d: ", i + 1);
                 
@@ -132,8 +132,7 @@ void pesquisa(){
         return;
     }
     
-    for (size_t i = 0; i < tot_event; i++)
-    {
+    for (int i = 0; i < tot_event; i++){
         if (eventos[i].C_I == aux_CI){
             printf("Nome do evento %s: \n", eventos[i].nome);
             printf("Local: %s\n", eventos[i].local);
@@ -143,19 +142,56 @@ void pesquisa(){
             printf("Valor da Entrada Básica: %.2f\n", eventos[i].v_basico);
             printf("Valor da Entrada Normal: %.2f\n", eventos[i].v_normal);
             printf("Valor da Entrada Especial: %.2f\n", eventos[i].v_especial);
+
+            for (int j = 0; j < 3; j++){
+                printf("Bebida %d: %s\n", j+1, eventos[i].bebidas[j].nome);
+            }
+        }
+        else{
+            printf("Evento nao cadastrado. \n");
+        } 
+    }
+    return pesquisa();
+}
+
+void ingressos(){
+    int aux_CI;
+
+    printf("Informe seu identificador unico: (0) para sair.\n");
+    scanf("%d", &aux_CI);
+    if (aux_CI == 0){
+        return;
+    }
+    for (int i = 0; i < tot_event; i++){
+        if (eventos[i].C_I == aux_CI){
+            printf("Nome do evento %s: \n", eventos[i].nome);
+
+            eventos[i].i_vend_basic =  (eventos[i].cap_max * 0.5) * eventos[i].v_basico;
+            eventos[i].i_vend_normal = (eventos[i].cap_max * 0.3) * eventos[i].v_normal;
+            eventos[i].i_vend_espec =  (eventos[i].cap_max * 0.2) * eventos[i].v_especial;
+
+            eventos[i].v_total = (eventos[i].i_vend_basic+eventos[i].i_vend_normal+eventos[i].i_vend_espec);
+
+            printf("Quantidade vendida do ingresso basico: %.2f\n", (eventos[i].cap_max * 0.5));
+            printf("Quantidade vendida do ingresso basico: %.2f\n", (eventos[i].cap_max * 0.3));
+            printf("Quantidade vendida do ingresso basico: %.2f\n", (eventos[i].cap_max * 0.2));
+
+            if (eventos[i].v_total > eventos[i].c_org){
+                printf("O Evento obteve um lucro de R$%.2f\n", eventos[i].v_total - eventos[i].c_org);
+            }
+            else{
+                printf("O evento obteve um prejuízo de R$%.2f\n",eventos[i].v_total - eventos[i].c_org);
+            }
+
         }
     }
-    printf("Evento nao cadastrado. \n");
-    return pesquisa();
 }
 
 
 
 
 
-
-
-int main() {
+int main(){
 
     setlocale(LC_ALL,"portuguese");
     int opc;
@@ -184,29 +220,46 @@ int main() {
     printf ("=========================================================================================================================\n");
 
     scanf("%d", &opc);
-    switch (opc)
-    {
-    case 1:
-        limpar_terminal();
-        printf("\t(1) Cadastrar evento\n");
-        cadastro();
-        printf("Deseja voltar ao menu? (S) para sim, (N) para nao\n");
-        getchar();
-        scanf("%c", &cond);
+
+    if (opc < 0 || opc>6){
+        do{
+            printf("Informe um opcao valida:\n");
+            scanf("%d", &opc);
+        }while(opc < 0 || opc>6);
+    }
+    
+    switch (opc){
+        case 1:
+            limpar_terminal();
+            printf("\t(1) Cadastrar evento\n");
+            cadastro();
+            printf("Deseja voltar ao menu? (S) para sim, (N) para nao\n");
+            getchar();
+            scanf("%c", &cond);
         break;
-    case 2:
-        limpar_terminal();
-        printf("\t(2) Pesquisar evento\n");
-        pesquisa();
-        printf("Deseja voltar ao menu? (S) para sim, (N) para nao\n");
-        getchar();
-        scanf("%c", &cond);
+
+        case 2:
+            limpar_terminal();
+            printf("\t(2) Pesquisar evento\n");
+            pesquisa();
+            printf("Deseja voltar ao menu? (S) para sim, (N) para nao\n");
+            getchar();
+            scanf("%c", &cond);
         break;
-    default:
-    printf("Opcao invalida.\n");
+
+        case 3:
+            limpar_terminal();
+            printf("\t(3) Ingressos vendidos\n");
+            ingressos();
+            printf("Deseja voltar ao menu? (S) para sim, (N) para nao\n");
+            getchar();
+            scanf("%c", &cond);
         break;
+
+        
     }
 
+    limpar_terminal();
     } while (cond =='S' || cond == 's');
 
 
