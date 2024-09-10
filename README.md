@@ -4,7 +4,7 @@ Este projeto é um sistema para gerenciamento de eventos de um promoter da cidad
 
 ## Nota Importante :memo:
 
-- Este projeto foi desenvolvido como parte de um Trabalho de Conclusão de Disciplina (TCD), com o objetivo de criar um sistema para um promoter de Paracatu.
+- Este projeto foi desenvolvido como parte de um Trabalho de Conclusão de Disciplina (TCD).
 
 
 
