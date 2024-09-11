@@ -288,6 +288,7 @@ int main(){
             scanf("%c", &cond);
         break;
         
+        
     }
 
     limpar_terminal();
