@@ -162,6 +162,7 @@ void ingressos(){
     if (aux_CI == 0){
         return;
     }
+
     for (int i = 0; i < tot_event; i++){
         if (eventos[i].C_I == aux_CI){
             printf("Nome do evento %s: \n", eventos[i].nome);
@@ -176,17 +177,40 @@ void ingressos(){
             printf("Quantidade vendida do ingresso basico: %.2f\n", (eventos[i].cap_max * 0.3));
             printf("Quantidade vendida do ingresso basico: %.2f\n", (eventos[i].cap_max * 0.2));
 
-            if (eventos[i].v_total > eventos[i].c_org){
-                printf("O Evento obteve um lucro de R$%.2f\n", eventos[i].v_total - eventos[i].c_org);
-            }
-            else{
-                printf("O evento obteve um prejuízo de R$%.2f\n",eventos[i].v_total - eventos[i].c_org);
-            }
+            
 
         }
+        else{
+            printf("Evento nao cadastrado. \n");
+        } 
     }
+    return ingressos();
 }
 
+void resultado(){
+    int aux_CI;
+
+    printf("Informe seu identificador unico: (0) para sair.\n");
+    scanf("%d", &aux_CI);
+    if (aux_CI == 0){
+        return;
+    }
+
+    for (int i = 0; i < tot_event; i++){
+        if (eventos[i].C_I == aux_CI){
+            if (eventos[i].v_total > eventos[i].c_org){
+                        printf("O Evento obteve um lucro de R$%.2f\n", eventos[i].v_total - eventos[i].c_org);
+                    }
+                    else{
+                        printf("O evento obteve um prejuízo de R$%.2f\n",eventos[i].v_total - eventos[i].c_org);
+                    }
+        }
+        else{
+            printf("Evento nao cadastrado. \n");
+        } 
+    }
+    return resultado();
+}
 
 
 
@@ -256,6 +280,14 @@ int main(){
             scanf("%c", &cond);
         break;
 
+        case 4:
+            limpar_terminal();
+            printf("\t(4) Exibir resultado por evento\n");
+            resultado();
+            printf("Deseja voltar ao menu? (S) para sim, (N) para nao\n");
+            getchar();
+            scanf("%c", &cond);
+        break;
         
     }
 
