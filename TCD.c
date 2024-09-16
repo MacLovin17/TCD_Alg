@@ -211,6 +211,26 @@ void resultado(){
     return resultado();
 }
 
+void resultado_geral() {
+    float total_venda = 0;
+    float total_custos = 0;
+
+    for (int i = 0; i < tot_event; i++) {
+        total_venda += eventos[i].v_total;
+        total_custos += eventos[i].c_org;
+
+        if (eventos[i].v_total > eventos[i].c_org) {
+            printf("Evento %d: Lucro de R$ %.2f\n", eventos[i].C_I, eventos[i].v_total - eventos[i].c_org);
+        } else {
+            printf("Evento %d: Prejuízo de R$ %.2f\n", eventos[i].C_I, eventos[i].c_org - eventos[i].v_total);
+        }
+    }
+
+    printf("\nResumo Geral:\n");
+    printf("Total de Vendas: R$ %.2f\n", total_venda);
+    printf("Total de Custos: R$ %.2f\n", total_custos);
+    printf("Lucro ou Prejuízo Geral: R$ %.2f\n", total_venda - total_custos);
+}
 
 
 
@@ -287,7 +307,15 @@ int main(){
             getchar();
             scanf("%c", &cond);
         break;
-        
+
+        case 5:
+            limpar_terminal();
+            printf("\t(5) Exibir resultado geral.\n");
+            resultado_geral();
+            printf("Deseja voltar ao menu? (S) para sim, (N) para nao\n");
+            getchar();
+            scanf("%c", &cond);
+        break;
         
     }
 
